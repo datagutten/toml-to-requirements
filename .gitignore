@@ -1,3 +1,7 @@
 *.egg-info
 build
 requirements.txt
+__pycache__
+.venv
+env
+.python-version

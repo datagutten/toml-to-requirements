@@ -2,12 +2,13 @@
 
 """Main entry point for the CLI."""
 
+from typing import Any
 import toml
 import sys
 import argparse
 
 
-def main():
+def main() -> None:
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--toml-file", type=str, default="pyproject.toml")
     argparser.add_argument("--include-optional", action="store_true")
@@ -17,7 +18,7 @@ def main():
 
     args = argparser.parse_args()
 
-    data = toml.load(args.toml_file)
+    data: dict[str, Any] = toml.load(args.toml_file)
 
     project = data.get("project")
 
