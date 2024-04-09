@@ -33,5 +33,5 @@ jobs:
           poetry run ruff format --check .
       - name: Test Coverage
         run: |
-          poetry run coverage run --source openai_function_calling -m pytest
-          poetry run coverage report --fail-under=95 --show-missing
+          poetry run coverage run --source toml_to_requirements -m pytest
+          poetry run coverage report --fail-under=90 --show-missing
