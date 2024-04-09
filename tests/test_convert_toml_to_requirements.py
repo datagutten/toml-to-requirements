@@ -1,3 +1,4 @@
+from __future__ import annotations
 import pytest
 from toml_to_requirements.convert_toml_to_requirements import (
     convert_toml_to_requirements,

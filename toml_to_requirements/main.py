@@ -2,15 +2,15 @@
 
 """Main entry point for the CLI."""
 
+from __future__ import annotations
+
 from toml_to_requirements.cli import CLIArguments, get_parsed_arguments
 from toml_to_requirements.convert_toml_to_requirements import (
     convert_toml_to_requirements,
 )
 
 
-def main() -> None:
-    arguments: CLIArguments = get_parsed_arguments()
-
+def main(arguments: CLIArguments) -> None:
     if not arguments.toml_file_path.is_file():
         raise FileNotFoundError(f"File not found: {arguments.toml_file_path}")
 
@@ -28,4 +28,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    arguments: CLIArguments = get_parsed_arguments()
+    main(arguments)
