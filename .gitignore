@@ -5,3 +5,7 @@ __pycache__
 .venv
 env
 .python-version
+.coverage
+.benchmarks
+.*_cache
+htmlcov
