@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "toml_to_requirements"
-version = "0.2.1"
+version = "0.2.2"
 description = "Convert a pyproject.toml file to a requirements.txt file"
 authors = ["Jake Cyr <cyrjake@gmail.com>"]
 license = "MIT"
