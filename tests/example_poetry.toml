@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "toml_to_requirements"
-version = "0.3.0"
+version = "0.2.2"
 description = "Convert a pyproject.toml file to a requirements.txt file"
 authors = ["Jake Cyr <cyrjake@gmail.com>"]
 license = "MIT"
@@ -9,15 +9,12 @@ keywords = ["toml", "requirements", "converter", "parser"]
 classifiers = [
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3",
 ]
 packages = [{ include = "toml_to_requirements" }]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<=3.12"
+python = ">=3.9,<4.0"
 toml = "^0.10.2"
 
 [tool.poetry.group.dev.dependencies]
