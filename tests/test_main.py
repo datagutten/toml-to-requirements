@@ -2,6 +2,7 @@ from __future__ import annotations
 from toml_to_requirements.main import main
 from toml_to_requirements.cli import CLIArguments
 from pathlib import Path
+from unittest import mock
 
 EXAMPLE_TOML_PATH_WITH_VERSIONS = Path("tests/example_toml_with_versions.toml")
 EXAMPLE_REQUIREMENTS_PATH_WITH_VERSIONS = Path(
@@ -12,16 +13,18 @@ EXAMPLE_TOML_PATH = Path("tests/example_toml.toml")
 EXAMPLE_REQUIREMENTS_PATH = Path("tests/example_requirements.txt")
 
 
-def test_main_with_simple_toml() -> None:
+@mock.patch(
+    "toml_to_requirements.main.get_parsed_arguments",
+    return_value=CLIArguments(
+        toml_file_path=EXAMPLE_TOML_PATH,
+        requirements_file_path=EXAMPLE_REQUIREMENTS_PATH,
+        optional_lists=["dev"],
+        poetry=False,
+    ),
+)
+def test_main_with_simple_toml(_mock_get_parsed_arguments: mock.Mock) -> None:
     try:
-        arguments = CLIArguments(
-            toml_file_path=EXAMPLE_TOML_PATH,
-            requirements_file_path=EXAMPLE_REQUIREMENTS_PATH,
-            optional_lists=["dev"],
-            poetry=False,
-        )
-
-        main(arguments)
+        main()
 
         assert EXAMPLE_REQUIREMENTS_PATH.is_file()
 
@@ -37,16 +40,18 @@ def test_main_with_simple_toml() -> None:
         EXAMPLE_REQUIREMENTS_PATH.unlink(missing_ok=True)
 
 
-def test_main_with_versions_in_toml() -> None:
+@mock.patch(
+    "toml_to_requirements.main.get_parsed_arguments",
+    return_value=CLIArguments(
+        toml_file_path=EXAMPLE_TOML_PATH_WITH_VERSIONS,
+        requirements_file_path=EXAMPLE_REQUIREMENTS_PATH_WITH_VERSIONS,
+        optional_lists=["dev"],
+        poetry=False,
+    ),
+)
+def test_main_with_versions_in_toml(_mock_get_parsed_arguments: mock.Mock) -> None:
     try:
-        arguments = CLIArguments(
-            toml_file_path=EXAMPLE_TOML_PATH_WITH_VERSIONS,
-            requirements_file_path=EXAMPLE_REQUIREMENTS_PATH_WITH_VERSIONS,
-            optional_lists=["dev"],
-            poetry=False,
-        )
-
-        main(arguments)
+        main()
 
         assert EXAMPLE_REQUIREMENTS_PATH_WITH_VERSIONS.is_file()
 

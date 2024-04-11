@@ -9,3 +9,4 @@ env
 .benchmarks
 .*_cache
 htmlcov
+dist
