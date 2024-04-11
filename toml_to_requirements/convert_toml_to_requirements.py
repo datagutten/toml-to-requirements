@@ -6,6 +6,43 @@ from typing import Any
 import toml
 
 
+def _convert_poetry_to_requirements(
+    parsed_toml_file: dict[str, Any],
+    *,
+    optional_lists: list[str] | None,
+) -> str:
+    project: dict | None = parsed_toml_file.get("tool", {}).get("poetry")
+
+    if project is None:
+        raise RuntimeError(
+            "The project section is missing from the TOML file. Exiting..."
+        )
+
+    dependencies: set[str] = {
+        f"{dependency}{version}"
+        for dependency, version in project.get("dependencies", {}).items()
+        if dependency != "python"
+    }
+
+    if optional_lists is not None:
+        groups: dict[str, Any] = project.get("group", {})
+
+        for optional_list_to_include in optional_lists:
+            if optional_list_to_include not in groups:
+                continue
+
+            group: dict[str, Any] = groups[optional_list_to_include]
+
+            optional_dependencies: set[str] = {
+                f"{dependency}{version}"
+                for dependency, version in group.get("dependencies", {}).items()
+            }
+
+            dependencies.update(optional_dependencies)
+
+    return "\n".join(sorted(dependencies))
+
+
 def _convert_setuptools_to_requirements(
     parsed_toml_file: dict[str, Any],
     *,
@@ -54,10 +91,12 @@ def convert_toml_to_requirements(
     Raises:
         RuntimeError: If poetry is set to True since it is not yet supported.
     """
-    if poetry:
-        raise RuntimeError("Poetry is not yet supported.")
-
     parsed_toml_file: dict[str, Any] = toml.loads(toml_file_string)
+
+    if poetry:
+        return _convert_poetry_to_requirements(
+            parsed_toml_file, optional_lists=optional_lists
+        )
 
     return _convert_setuptools_to_requirements(
         parsed_toml_file,
