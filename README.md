@@ -20,14 +20,8 @@ Run the following command to generate a requirements.txt file without including 
 toml-to-req --toml-file pyproject.toml
 ```
 
-To include optional dependencies, include the `--include-optional` flag in the above command:
+To include optional dependencies, include the `--optional-lists` flag in the above command:
 
 ```bash
-toml-to-req --toml-file pyproject.toml --include-optional
-```
-
-The optional lists to include can also be specified
-
-```bash
-toml-to-req --toml-file pyproject.toml --include-optional --optional-lists dev,test
+toml-to-req --toml-file pyproject.toml --optional-lists dev,test
 ```
